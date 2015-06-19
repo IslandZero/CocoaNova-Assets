@@ -13,9 +13,11 @@ class Nova::Task::Gen1X < Nova::Task
       index = JSON.load File.open("#{path}/Contents.json")
       file2x = nil
       file1x = nil
+      index['images'].delete_if do |image|
+          image['filename'].nil?
+      end
       index['images'].each do |image|
         filename = image['filename']
-        next if filename.nil?
         case image['scale']
         when '2x'
           file2x = "#{path}/#{filename}"
